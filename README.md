@@ -1,4 +1,4 @@
-# Prettify Coffeescript
+# Prettier Coffeescript
 
 Uses [prettier-plugin-coffeescript](https://github.com/helixbass/prettier-plugin-coffeescript) to prettify Coffeescript.
 
