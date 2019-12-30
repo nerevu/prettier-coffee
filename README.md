@@ -1,18 +1,12 @@
-[![Build Status](https://travis-ci.org/nerevu/html2hs.svg?branch=master)](https://travis-ci.org/unframework/html2hs)
+# Prettify Coffeescript
 
-# Convert Legacy HTML to Hyperscript
-
-Automatically translate old HTML markup into the new Hyperscript markup embeddable directly inside your component Javascript code.
-
-Use this for hand-converting legacy project source code (e.g. AngularJS templates): care is taken to preserve original whitespace and even comments. For dynamic serving and CI builds check out https://github.com/alexmingoia/jsx-transform instead.
+Uses [prettier-plugin-coffeescript](https://github.com/helixbass/prettier-plugin-coffeescript) to prettify Coffeescript.
 
 ```
 npm install -g @nerevu/prettier-coffee
 prettier-coffee [options] file.coffee [file2.coffee ...]
 cat file.coffee | prettier-coffee
 ```
-
-See [prettier-plugin-coffeescript](https://github.com/helixbass/prettier-plugin-coffeescript#configuration) for available options
 
 Coffeescript goes in:
 
