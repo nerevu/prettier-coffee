@@ -1,0 +1,40 @@
+{
+  "name": "@nerevu/prettier-coffee",
+  "version": "1.0.0",
+  "description": "Convert Coffeescript into prettier Coffeescript",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nerevu/prettier-coffee.git"
+  },
+  "scripts": {
+    "prettify": "prettier --write '*.js' && prettier --write 'bin/prettier-coffee'",
+    "test": "tap ./test",
+    "watch:js": "onchange '*.js' -- prettier --write {{changed}}",
+    "watch:bin": "onchange 'bin/prettier-coffee' -- prettier --write {{changed}}",
+    "watch": "npm run watch:js && npm run watch:bin"
+  },
+  "bin": {
+    "prettier-coffee": "bin/prettier-coffee"
+  },
+  "author": "Reuben Cummings <rcummings@nerevu.com>",
+  "license": "MIT",
+  "dependencies": {
+    "coffeescript": "github:jashkenas/coffeescript#05d45e9b",
+    "minimist": "^1.2.0",
+    "prettier": "github:helixbass/prettier#9105f5f1",
+    "prettier-plugin-coffeescript": "^0.1.3",
+    "read-input": "^0.3.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.2",
+    "hyperscript": "~1.4.4",
+    "tap": "^14.10.5"
+  },
+  "bugs": {
+    "url": "https://github.com/nerevu/prettier-coffee/issues"
+  },
+  "homepage": "https://github.com/nerevu/prettier-coffee#readme",
+  "directories": {}
+}

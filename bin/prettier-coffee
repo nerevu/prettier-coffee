@@ -1,0 +1,112 @@
+#!/usr/bin/env node
+
+var args = require('../cli')
+  .helpfile(__dirname + '/../usage.txt')
+  .version(require('../package.json').version)
+  .minimist({
+    string: ['comma', 'printWidth', 'tabWidth'],
+    boolean: ['verbose', 'doubleQuote', 'emptyParamListParens', 'indentChain'],
+    alias: { h: 'help', v: 'version' }
+  });
+
+var read = require('read-input');
+var prettier = require('prettier');
+
+read(args._, function(err, res) {
+  if (err) {
+    console.error(err);
+    process.exit(8);
+  }
+  opts = Object.assign({ printWidth: '80', tabWidth: '2' }, args);
+
+  config = {
+    parser: 'coffeescript',
+    singleQuote: !opts.doubleQuote,
+    emptyParamListParens: opts.emptyParamListParens,
+    indentChain: opts.indentChain,
+    printWidth: parseInt(opts.printWidth),
+    tabWidth: parseInt(opts.tabWidth),
+    comma: opts.comma
+  };
+
+  res.successes.forEach(function(file) {
+    try {
+      var out = prettier.format(file.data, config);
+      process.stdout.write(out);
+      process.stdout.write('\n');
+    } catch (err) {
+      if (!err.prettier) {
+        console.error(err.message);
+        console.error(err.stack);
+      } else {
+        printError(err);
+      }
+      process.exit(16);
+    }
+  });
+});
+
+function inspect(data) {
+  var colors = process.stdout.isTTY;
+  return require('util').inspect(data, { depth: null, colors: colors });
+}
+
+/*
+ * removes "range" and "loc"
+ */
+
+function scrub(obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(function(item) {
+      return scrub(item);
+    });
+  } else if (typeof obj === 'object') {
+    for (var key in obj) {
+      if (!obj.hasOwnProperty(key)) continue;
+      if (key === 'range' || key === 'loc') {
+        delete obj[key];
+      } else {
+        obj[key] = scrub(obj[key]);
+      }
+    }
+    return obj;
+  } else {
+    return obj;
+  }
+}
+
+/*
+ * heh
+ */
+
+function printWarnings(warnings) {
+  if (!warnings || warnings.length === 0) return;
+
+  var comments = warnings.map(function(warn) {
+    var msg = '' + warn.filename + ':' + warn.start.line + ':';
+    if (warn.start) msg += warn.start.line + ':' + warn.start.column + ': ';
+    msg += c(34, '[warning] ') + warn.description;
+
+    console.warn(msg);
+  });
+}
+
+function printError(err) {
+  var msg =
+    '' +
+    err.filename +
+    ':' +
+    err.start.line +
+    ':' +
+    err.start.column +
+    ': ' +
+    c(31, '[error] ') +
+    err.description;
+
+  console.error(msg);
+}
+
+function c(color, str) {
+  if (process.stdout.isTTY) return '\033[' + color + 'm' + str + '\033[0m';
+  else return str;
+}

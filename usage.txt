@@ -1,0 +1,19 @@
+Usage:
+    $0 FILES [options]
+
+Options:
+    -h, --help                  print usage information
+    -v, --version               show version info and exit
+        --doubleQuote           use double quotes
+        --emptyParamListParens  functions with an empty param list will include
+                                an empty pair of parentheses, e.g., () -> a
+        --indentChain           indent multiline chained method calls with
+                                respect to the first line of the chain
+        --comma                 Applies to multiline arrays/calls/function
+                                params/explicit objects
+                                  - If set to `nonTrailing`, commas will be added
+                                    after non-last items
+                                  - If set to `all`, commas will be added after
+                                    all items
+        --printWidth           (default 80)
+        --tabWidth             (default 2)
